@@ -1,0 +1,105 @@
+<!--
+  pestanas/cifrador.html
+  ──────────────────────────────────────────────────────────────────────────────
+  Vista del módulo de cifrado (César + Atbash).
+
+  Interacción con js/:
+    • js/main.js  inyecta este HTML en #main-content vía fetch()
+    • js/main.js  llama a iniciarEventosCifrador() tras la inyección, que:
+        - Ajusta el atributo max del input de desplazamiento a (longitud - 1)
+        - Botón "Cifrar con César"  → cifrarCesar()  (js/cesar.js)
+        - Botón "Cifrar con Atbash" → cifrarAtbash() (js/atbash.js)
+        - Botón "Copiar"            → clipboard API
+    • Ambas funciones llaman internamente a verificarAlfabeto() (js/alfabeto.js)
+      y muestran alert si no hay alfabeto configurado.
+  ──────────────────────────────────────────────────────────────────────────────
+-->
+
+<div class="section-title">Cifrador de Mensajes</div>
+<p class="section-subtitle">// MÓDULO 02 — Cifrado César y Atbash con alfabeto dinámico</p>
+
+<div class="cipher-grid">
+
+    <!-- Columna izquierda: Entrada -->
+    <div>
+        <div class="card">
+            <div class="card-label">▸ Mensaje original (entrada ilimitada)</div>
+            <textarea
+                id="input-mensaje-cifrar"
+                rows="10"
+                placeholder="Escribe o pega aquí el texto a cifrar…"
+            ></textarea>
+        </div>
+
+        <!-- Control César -->
+        <div class="card">
+            <div class="card-label">▸ Desplazamiento César (N)</div>
+            <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+                <input
+                    type="number"
+                    id="input-desplazamiento"
+                    value="3"
+                    min="1"
+                    max="9999"
+                    style="width:120px;"
+                    title="Rango: 1 – (Longitud del alfabeto − 1)"
+                />
+                <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-secondary);">
+                    Máximo dinámico: <strong style="color:var(--accent);" id="desp-max-label">—</strong>
+                </span>
+            </div>
+
+            <!-- Mostrar max actual -->
+            <script>
+                // Actualizar etiqueta del máximo al renderizar
+                document.addEventListener('DOMContentLoaded', () => {}, { once: true });
+                (() => {
+                    const a = window.__alfabetoActual;
+                    const el = document.getElementById('desp-max-label');
+                    const inp = document.getElementById('input-desplazamiento');
+                    if (a && el) {
+                        el.textContent = a.longitud - 1;
+                        if (inp) inp.max = a.longitud - 1;
+                    }
+                })();
+            </script>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="controls-row">
+            <button id="btn-cifrar-cesar" class="btn btn-primary">
+                🔐 Cifrar con César
+            </button>
+            <button id="btn-cifrar-atbash" class="btn btn-gold">
+                🔒 Cifrar con Atbash
+            </button>
+        </div>
+    </div>
+
+    <!-- Columna derecha: Salida -->
+    <div>
+        <div class="card" style="height:100%;">
+            <div class="card-label">▸ Resultado cifrado (solo lectura)</div>
+            <textarea
+                id="output-cifrado"
+                rows="14"
+                readonly
+                placeholder="El texto cifrado aparecerá aquí…"
+                style="height: calc(100% - 60px); min-height: 240px;"
+            ></textarea>
+
+            <div class="controls-row" style="margin-top:0.75rem; justify-content:flex-end;">
+                <button id="btn-copiar-cifrado" class="btn btn-outline">
+                    📋 COPIAR
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Nota informativa -->
+<div class="info-box" style="margin-top:0.5rem;">
+    💡 Los caracteres que <strong>no pertenecen al alfabeto configurado</strong>
+    (espacios, signos de puntuación, etc.) se conservan sin modificar en el texto cifrado.
+</div>
