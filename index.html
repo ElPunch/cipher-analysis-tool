@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CipherLab — Sistema de Cifrado Dinámico</title>
+    <meta name="description" content="Cifrado César y Atbash con alfabeto dinámico configurable." />
+
+    <!--
+      index.html
+      ─────────────────────────────────────────────────────────────────────────
+      Esqueleto SPA (Single Page Application).
+
+      Estructura de carga:
+        1. Este HTML provee el shell: header + nav de pestañas + #main-content
+        2. js/main.js (type="module") gestiona el enrutamiento:
+           - Al hacer clic en una pestaña llama a fetch('pestanas/X.html')
+           - Inyecta el HTML resultante en #main-content
+           - Registra los event listeners específicos de cada pestaña
+        3. El estado global (alfabetoActual) vive en window.__alfabetoActual
+           y es compartido entre todos los módulos JS.
+      ─────────────────────────────────────────────────────────────────────────
+    -->
+
+    <link rel="stylesheet" href="estilos/estilos.css" />
+</head>
+<body>
+
+    <!-- ── Header de la aplicación ── -->
+    <header id="app-header">
+        <div class="logo">Cipher<span>Lab</span></div>
+        <div class="tagline">
+            Sistema de Cifrado Dinámico &nbsp;|&nbsp; César · Atbash
+        </div>
+
+        <!-- Indicador de estado del alfabeto (se actualiza por main.js) -->
+        <div id="header-status" aria-live="polite">
+            <div class="dot"></div>
+            <span id="header-label" style="font-size:0.72rem; letter-spacing:0.06em;">SIN ALFABETO</span>
+        </div>
+    </header>
+
+    <!-- ── Navegación por pestañas (estilo Google / Material) ── -->
+    <nav id="tab-nav" role="tablist" aria-label="Módulos del sistema">
+        <button
+            class="tab-btn"
+            data-tab="alfabeto"
+            role="tab"
+            aria-selected="false"
+            aria-controls="main-content"
+        >
+            &nbsp;Alfabeto
+        </button>
+        <button
+            class="tab-btn"
+            data-tab="cifrador"
+            role="tab"
+            aria-selected="false"
+            aria-controls="main-content"
+        >
+            &nbsp;Cifrador
+        </button>
+        <button
+            class="tab-btn"
+            data-tab="descifrador"
+            role="tab"
+            aria-selected="false"
+            aria-controls="main-content"
+        >
+            &nbsp;Descifrador
+        </button>
+    </nav>
+
+    <!-- ── Contenedor principal donde se inyectan las pestañas ── -->
+    <main id="main-content" role="tabpanel" aria-label="Contenido del módulo activo">
+        <!-- js/main.js inyecta aquí el HTML de pestanas/*.html via fetch() -->
+        <div class="tab-loading">
+            <div class="spinner"></div>
+            INICIANDO SISTEMA...
+        </div>
+    </main>
+
+    <!--
+      js/main.js es el ÚNICO script que index.html carga directamente.
+      Todos los demás módulos (alfabeto.js, cesar.js, atbash.js)
+      son importados desde main.js usando ESModules nativos.
+      Requiere servir el proyecto desde un servidor HTTP (no file://).
+    -->
+    <script type="module" src="js/main.js"></script>
+
+</body>
+</html>
