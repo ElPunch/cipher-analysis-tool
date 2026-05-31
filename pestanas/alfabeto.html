@@ -1,0 +1,100 @@
+<!--
+  pestanas/alfabeto.html
+  ──────────────────────────────────────────────────────────────────────────────
+  Vista de configuración del Alfabeto Dinámico.
+
+  Interacción con js/:
+    • js/main.js  inyecta este HTML en #main-content vía fetch()
+    • js/main.js  llama a iniciarEventosAlfabeto() tras la inyección, que:
+        - conecta el botón "Cargar Alfabeto" → cargarAlfabeto() (js/alfabeto.js)
+        - conecta el botón "Limpiar"         → resetea window.__alfabetoActual
+        - textarea input                     → preview en tiempo real de pills
+    • La instancia resultante se publica en window.__alfabetoActual (leído globalmente)
+  ──────────────────────────────────────────────────────────────────────────────
+-->
+
+<div class="section-title">Configuración del Alfabeto</div>
+<p class="section-subtitle">// MÓDULO 01 — Conjunto de caracteres dinámico del sistema</p>
+
+<!-- Estado actual -->
+<div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+    <span id="estado-alfabeto" class="status-indicator unconfigured">
+        <span class="status-dot"></span> 🔴 SIN CONFIGURAR
+    </span>
+    <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-secondary);">
+        Caracteres únicos: <strong id="alpha-count" style="color:var(--accent)">0</strong>
+    </span>
+</div>
+
+<!-- Info box -->
+<div class="info-box">
+    📌 Pega o escribe el alfabeto a usar. Los caracteres duplicados se eliminan automáticamente
+    y se preserva el orden de aparición. El alfabeto activo se comparte con los módulos
+    Cifrador y Descifrador.
+</div>
+
+<!-- Input del alfabeto -->
+<div class="card">
+    <div class="card-label">▸ Ingresa el conjunto de caracteres</div>
+    <textarea
+        id="input-alfabeto"
+        rows="5"
+        placeholder="Ejemplo:  abcdefghijklmnñopqrstuvwxyz ÁÉÍÓÚ0123456789"
+        style="font-size:1rem; letter-spacing:0.05em;"
+    ></textarea>
+
+    <div class="controls-row" style="margin-top:1rem;">
+        <button id="btn-cargar-alfabeto" class="btn btn-primary">
+            ⚡ Cargar Alfabeto
+        </button>
+        <button id="btn-limpiar-alfabeto" class="btn btn-danger">
+            ✕ Limpiar
+        </button>
+    </div>
+</div>
+
+<!-- Preview de caracteres -->
+<div class="card">
+    <div class="card-label">▸ Previsualización del alfabeto (orden de cifrado)</div>
+    <div id="chars-preview"></div>
+
+    <p style="
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--text-secondary);
+        margin-top: 1rem;
+        line-height: 1.6;
+    ">
+        Cada píldora representa un caracter único. El índice (base 0) de izquierda a derecha
+        determina la posición usada por los algoritmos César y Atbash.
+    </p>
+</div>
+
+<!-- Referencia de algoritmos -->
+<div class="card" style="border-color:rgba(232,196,68,0.2); background:rgba(232,196,68,0.03);">
+    <div class="card-label" style="color:var(--accent-2);">▸ Referencia de fórmulas</div>
+    <table style="width:100%; border-collapse:collapse; font-family:var(--font-mono); font-size:0.8rem;">
+        <thead>
+            <tr style="border-bottom:1px solid var(--border);">
+                <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--text-secondary); font-weight:600;">Algoritmo</th>
+                <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--text-secondary); font-weight:600;">Cifrado</th>
+                <th style="text-align:left; padding:0.5rem 0.75rem; color:var(--text-secondary); font-weight:600;">Descifrado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:0.6rem 0.75rem; color:var(--accent);">CÉSAR</td>
+                <td style="padding:0.6rem 0.75rem; color:var(--text-primary);">(pos + N) mod L</td>
+                <td style="padding:0.6rem 0.75rem; color:var(--text-primary);">(pos − N) mod L</td>
+            </tr>
+            <tr>
+                <td style="padding:0.6rem 0.75rem; color:var(--accent-2);">ATBASH</td>
+                <td style="padding:0.6rem 0.75rem; color:var(--text-primary);">(L − 1) − pos</td>
+                <td style="padding:0.6rem 0.75rem; color:var(--text-primary);">(L − 1) − pos</td>
+            </tr>
+        </tbody>
+    </table>
+    <p style="font-size:0.72rem; color:var(--text-secondary); margin-top:0.5rem;">
+        L = longitud del alfabeto &nbsp;|&nbsp; N = desplazamiento &nbsp;|&nbsp; pos = posición del caracter
+    </p>
+</div>
