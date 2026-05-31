@@ -1,0 +1,124 @@
+<!--
+  pestanas/descifrador.html
+  ──────────────────────────────────────────────────────────────────────────────
+  Vista del módulo de descifrado automático (fuerza bruta César + Atbash único).
+
+  Interacción con js/:
+    • js/main.js  inyecta este HTML en #main-content vía fetch()
+    • js/main.js  llama a iniciarEventosDescifrador() tras la inyección, que:
+        - Botón "Analizar y Descifrar" → fuerzaBrutaCesar() (js/cesar.js)
+                                        → cifrarAtbash()    (js/atbash.js)
+        - Los resultados se renderizan en:
+            #brute-list    (lista de rotaciones César, módulo 1 … L-1)
+            #output-atbash (textarea readonly con resultado Atbash)
+        - Ambas funciones verifican alfabeto activo internamente
+  ──────────────────────────────────────────────────────────────────────────────
+-->
+
+<div class="section-title">Descifrador Automático</div>
+<p class="section-subtitle">// MÓDULO 03 — Análisis por fuerza bruta César + espejo Atbash</p>
+
+<!-- Entrada -->
+<div class="card">
+    <div class="card-label">▸ Mensaje cifrado a analizar</div>
+    <textarea
+        id="input-mensaje-descifrar"
+        rows="5"
+        placeholder="Pega aquí el mensaje cifrado que deseas analizar…"
+    ></textarea>
+
+    <div class="controls-row" style="margin-top:1rem;">
+        <button id="btn-analizar" class="btn btn-primary" style="font-size:0.85rem; padding: 0.75rem 2rem;">
+            🔍 Analizar y Descifrar Mensaje
+        </button>
+        <span style="font-family:var(--font-mono); font-size:0.72rem; color:var(--text-secondary);">
+            Se generarán <strong style="color:var(--accent);" id="rotaciones-count">
+                <!-- se actualiza inline -->
+                <script>
+                    (() => {
+                        const a = window.__alfabetoActual;
+                        document.currentScript.parentElement.textContent =
+                            a ? `${a.longitud - 1} rotaciones César` : '— rotaciones César';
+                    })();
+                </script>
+            </strong>
+        </span>
+    </div>
+</div>
+
+<!-- Panel de resultados (oculto hasta primer análisis) -->
+<div id="panel-resultados" class="decipher-results" style="display:none;">
+
+    <!-- Columna izquierda: César Fuerza Bruta -->
+    <div>
+        <div class="result-col-title">
+            🔑 Rotaciones César
+            <span class="algo-tag tag-cesar">FUERZA BRUTA</span>
+        </div>
+
+        <div class="card" style="padding:0.75rem;">
+            <div class="card-label" style="padding:0 0.25rem 0.5rem;">
+                ▸ Módulo X → Texto descifrado con desplazamiento −X
+            </div>
+            <ul id="brute-list">
+                <!-- js/main.js inyecta <li> por cada rotación -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- Columna derecha: Atbash único -->
+    <div>
+        <div class="result-col-title">
+            🔒 Descifrado Atbash
+            <span class="algo-tag tag-atbash">RESULTADO ÚNICO</span>
+        </div>
+
+        <div class="card" style="height:calc(100% - 40px);">
+            <div class="card-label">▸ Espejo inverso del mensaje (involutivo)</div>
+            <textarea
+                id="output-atbash"
+                readonly
+                rows="12"
+                placeholder="El descifrado Atbash aparecerá aquí…"
+                style="height: calc(100% - 40px); min-height: 200px;"
+            ></textarea>
+
+            <div class="controls-row" style="justify-content:flex-end; margin-top:0.5rem;">
+                <button class="btn btn-outline" onclick="
+                    const t = document.getElementById('output-atbash').value;
+                    if (t) navigator.clipboard.writeText(t).then(() => {
+                        this.textContent = '✓ COPIADO';
+                        setTimeout(() => this.textContent = '📋 COPIAR', 1500);
+                    });
+                ">📋 COPIAR</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Placeholder cuando no hay resultados aún -->
+<div id="placeholder-analisis" style="
+    text-align:center;
+    padding: 4rem 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.06em;
+    line-height: 2;
+">
+    <div style="font-size:2.5rem; margin-bottom:1rem; opacity:0.3;">⌛</div>
+    AWAITING INPUT...<br>
+    Configura el alfabeto, pega un mensaje cifrado<br>
+    y pulsa "Analizar y Descifrar Mensaje"
+
+    <script>
+        // Ocultar placeholder cuando se muestren resultados
+        const panel = document.getElementById('panel-resultados');
+        const ph    = document.getElementById('placeholder-analisis');
+        const obs   = new MutationObserver(() => {
+            if (panel.style.display !== 'none') ph.style.display = 'none';
+        });
+        if (panel) obs.observe(panel, { attributes: true, attributeFilter: ['style'] });
+    </script>
+</div>
