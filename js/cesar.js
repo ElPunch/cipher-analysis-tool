@@ -22,7 +22,7 @@ function getAlfabeto() {
 /** Guard de seguridad — muestra alert y retorna false si no hay alfabeto. */
 function verificarGuard() {
     if (!getAlfabeto()) {
-        alert("⚠️ Acción bloqueada: Primero debes ir a la pestaña 'Alfabeto' y configurar el conjunto de caracteres.");
+        alert("Acción bloqueada: Primero debes ir a la pestaña 'Alfabeto' y configurar el conjunto de caracteres.");
         return false;
     }
     return true;
@@ -38,7 +38,7 @@ export function cifrarCesar(mensaje, desplazamiento) {
     if (!verificarGuard()) return '';
     const N = parseInt(desplazamiento, 10);
     if (isNaN(N) || N < 1) {
-        alert('⚠️  Ingresa un desplazamiento válido (número entero ≥ 1).');
+        alert('Ingresa un desplazamiento válido (número entero ≥ 1).');
         return '';
     }
     const alfa = getAlfabeto();
@@ -58,7 +58,7 @@ export function descifrarCesar(mensajeCifrado, desplazamiento) {
     if (!verificarGuard()) return '';
     const N = parseInt(desplazamiento, 10);
     if (isNaN(N) || N < 1) {
-        alert('⚠️  Ingresa un desplazamiento válido (número entero ≥ 1).');
+        alert('Ingresa un desplazamiento válido (número entero ≥ 1).');
         return '';
     }
     const alfa = getAlfabeto();

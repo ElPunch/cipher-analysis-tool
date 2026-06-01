@@ -77,7 +77,7 @@ async function cargarPestana(nombre) {
     } catch (err) {
         mainContent.innerHTML = `
             <div class="tab-loading" style="color:var(--red)">
-                ⚠️ Error cargando el módulo: ${err.message}<br>
+                Error cargando el módulo: ${err.message}<br>
                 <small style="margin-top:0.5rem;display:block;">
                     Asegúrate de servir el proyecto desde un servidor HTTP (no file://).
                 </small>
@@ -100,7 +100,7 @@ function sincronizarEstadoPestana(nombre) {
 
     if (actual) {
         indicator.className = 'status-indicator active';
-        indicator.innerHTML = `<span class="status-dot"></span> 🟢 ACTIVO — ${actual.longitud} caracteres únicos`;
+        indicator.innerHTML = `<span class="status-dot"></span> ACTIVO — ${actual.longitud} caracteres únicos`;
         if (preview) {
             preview.innerHTML = actual.caracteres
                 .map(c => `<span class="char-pill">${c === ' ' ? '␣' : escapeHtml(c)}</span>`)
@@ -110,7 +110,7 @@ function sincronizarEstadoPestana(nombre) {
         if (countEl)  countEl.textContent = actual.longitud;
     } else {
         indicator.className = 'status-indicator unconfigured';
-        indicator.innerHTML = `<span class="status-dot"></span> 🔴 SIN CONFIGURAR`;
+        indicator.innerHTML = `<span class="status-dot"></span> SIN CONFIGURAR`;
         if (preview) preview.innerHTML = '';
         if (countEl) countEl.textContent = '0';
     }
@@ -207,7 +207,7 @@ function iniciarEventosCifrador() {
             if (!txt) return;
             navigator.clipboard.writeText(txt).then(() => {
                 btnCopiar.textContent = '✓ COPIADO';
-                setTimeout(() => { btnCopiar.textContent = '📋 COPIAR'; }, 1500);
+                setTimeout(() => { btnCopiar.textContent = 'COPIAR'; }, 1500);
             });
         });
     }
@@ -234,11 +234,11 @@ function iniciarEventosDescifrador() {
             const msg = inputMsg?.value?.trim() ?? '';
 
             if (!window.__alfabetoActual) {
-                alert("⚠️ Acción bloqueada: Primero debes ir a la pestaña 'Alfabeto' y configurar el conjunto de caracteres.");
+                alert("Acción bloqueada: Primero debes ir a la pestaña 'Alfabeto' y configurar el conjunto de caracteres.");
                 return;
             }
             if (!msg) {
-                alert('⚠️  El campo de mensaje está vacío.');
+                alert('El campo de mensaje está vacío.');
                 return;
             }
 

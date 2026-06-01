@@ -19,7 +19,7 @@ function getAlfabeto() {
 /** Guard de seguridad. */
 function verificarGuard() {
     if (!getAlfabeto()) {
-        alert("⚠️ Acción bloqueada: Primero debes ir a la pestaña 'Alfabeto' y configurar el conjunto de caracteres.");
+        alert("Acción bloqueada: Primero debes ir a la pestaña 'Alfabeto' y configurar el conjunto de caracteres.");
         return false;
     }
     return true;

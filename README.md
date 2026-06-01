@@ -57,7 +57,7 @@ CipherLab es un proyecto **front-end puro** (HTML + CSS + JavaScript con ES Modu
    ```
 4. La pestaña **Alfabeto** se carga por defecto; configure primero el conjunto de caracteres antes de usar el Cifrador o el Descifrador.
 
-> ⚠️ **Importante:** No abrir `index.html` con doble clic. El navegador bloqueará los módulos ES y los `fetch()` a `pestanas/*.html` por la política CORS de `file://`.
+> **Importante:** No abrir `index.html` con doble clic. El navegador bloqueará los módulos ES y los `fetch()` a `pestanas/*.html` por la política CORS de `file://`.
 
 ---
 
@@ -71,7 +71,7 @@ En la pestaña **Alfabeto**, pegue o escriba el conjunto de caracteres que defin
 abcdefghijklmnñopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
 ```
 
-Pulse **⚡ Cargar Alfabeto**. El indicador del header cambiará a `ALFABETO: NN chars` y se mostrará la vista previa en píldoras.
+Pulse **Cargar Alfabeto**. El indicador del header cambiará a `ALFABETO: NN chars` y se mostrará la vista previa en píldoras.
 
 ### 2. Cifrar un mensaje (César)
 
@@ -79,7 +79,7 @@ En la pestaña **Cifrador**:
 
 - **Mensaje original:** `Hola mundo`
 - **Desplazamiento (N):** `3`
-- Pulse **🔐 Cifrar con César**.
+- Pulse **Cifrar con César**.
 
 Resultado esperado (con el alfabeto anterior):
 
@@ -94,7 +94,7 @@ Los caracteres que **no pertenecen al alfabeto** (espacios, signos) se conservan
 Atbash es un cifrado **involutivo**: aplicar la operación dos veces devuelve el texto original.
 
 - **Mensaje original:** `Hola`
-- Pulse **🔒 Cifrar con Atbash**.
+- Pulse **Cifrar con Atbash**.
 
 ```
 Sloz
@@ -102,7 +102,7 @@ Sloz
 
 ### 4. Descifrar por fuerza bruta
 
-En la pestaña **Descifrador**, pegue un mensaje sospechoso y pulse **🔍 Analizar y Descifrar Mensaje**. El sistema:
+En la pestaña **Descifrador**, pegue un mensaje sospechoso y pulse **Analizar y Descifrar Mensaje**. El sistema:
 
 - Genera todas las rotaciones César posibles (`módulo 1 … L-1`) y las lista en pantalla.
 - Aplica Atbash una sola vez (no requiere fuerza bruta por ser involutivo).

@@ -57,7 +57,7 @@ export function cargarAlfabeto(cadena) {
     const caracteres = cadena.trim();
 
     if (!caracteres) {
-        alert('⚠️  El campo de alfabeto está vacío. Por favor ingresa al menos un caracter.');
+        alert('El campo de alfabeto está vacío. Por favor ingresa al menos un caracter.');
         return null;
     }
 
@@ -67,7 +67,7 @@ export function cargarAlfabeto(cadena) {
     window.__alfabetoActual = instancia;
 
     alert(
-        `✅  Alfabeto cargado correctamente.\n` +
+        `Alfabeto cargado correctamente.\n` +
         `• Caracteres únicos: ${instancia.longitud}\n` +
         `• Primer caracter: "${instancia.caracteres[0]}"\n` +
         `• Último caracter: "${instancia.caracteres[instancia.longitud - 1]}"`
